@@ -43,6 +43,7 @@ The runtime has three primary pieces:
 - Mark comments in progress with reactions and avoid duplicate workers for the same work item.
 - Spawn subagents for issue implementation, PR feedback handling, and stale PR updates.
 - Track active subprocesses and retry failed work items when appropriate.
+- Auto-merge PRs when a `$mog` comment is present and CI status is green (merge on green).
 
 **Subagent responsibilities**
 
@@ -127,7 +128,7 @@ The image name is still `kilo-agents` today even though the project name is now 
    ```
 3. Install Codex CLI if you want to run with `AGENT_CLI=codex`:
    ```bash
-   npm install -g @openai/codex@0.112.0
+   npm install -g @openai/codex@0.125.0
    ```
 
 4. Run the agent:
@@ -143,7 +144,7 @@ Codex CLI can authenticate either via browser login (`codex --login`) or by usin
 
 1. Install the CLI:
    ```bash
-   npm install -g @openai/codex@0.112.0
+   npm install -g @openai/codex@0.125.0
    ```
 
 2. Export an API key in the environment (recommended):
@@ -212,6 +213,23 @@ Where `process_type` is either `main` or `subagent` to distinguish log sources.
 The agent uses the following labels:
 - `ISSUE_LABEL_RESERVE`: Applied when an issue is actively being worked on.
 - `ISSUE_LABEL_IN_REVIEW`: Applied after issue work has produced a PR.
+
+## Merge on Green ($mog)
+
+The agent supports an automatic merge workflow via the `$mog` comment command. When a PR contains a comment with `$mog`, the orchestrator will:
+
+1. Detect the `$mog` comment on the PR
+2. Check the CI status via the Gitea combined status API
+3. If CI is green (`success`), merge the PR with a squash commit
+
+Example workflow:
+```
+Developer: "$mog" comment on PR #123
+Agent:    Detects $mog, verifies CI is passing
+Agent:    Merges PR #123 with squash commit
+```
+
+The `$mog` comment can be combined with other text (e.g., "LGTM, $mog when CI passes"). Only PR body comments are checked (not review comments).
 
 ## Security Notes
 
