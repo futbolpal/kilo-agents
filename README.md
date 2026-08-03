@@ -83,9 +83,9 @@ Set the following environment variables:
 - `MAX_CONCURRENT_SUBAGENTS`: Max number of active subagents at once (default: `3`)
 - `AGENT_CLI`: Which coding CLI to use for code generation (`kilocode` or `codex`, default: `kilocode`)
 - `KILOCODE_ARGS`: Override kilocode CLI args (default: `-a -m orchestrator -j`)
-- `CODEX_EXEC_ARGS`: Override codex exec args (default: `--full-auto`)
+- `CODEX_EXEC_ARGS`: Override codex exec args (default: `--full-auto -c model_reasoning_effort=medium`)
 - `CODEX_PROMPT_MODE`: How to pass prompts to codex (`stdin` or `arg`, default: `stdin`)
-- `CODEX_MODEL`: Optional codex model name (passed as `-m`)
+- `CODEX_MODEL`: Codex model name (passed as `-m`, default: `gpt-5.6-luna`)
 - `PROMPT_TEMPLATE_PATH`: Path to the prompt template file (default: `prompt_template.txt`)
 - `MAX_CONTEXT_CHARS`: Max characters of repo context injected into prompts (default: `8000`)
 - `WORKSPACE_DIR`: Directory where subagent clones repositories (default: `/workspace`)
@@ -128,7 +128,7 @@ The image name is still `kilo-agents` today even though the project name is now 
    ```
 3. Install Codex CLI if you want to run with `AGENT_CLI=codex`:
    ```bash
-   npm install -g @openai/codex@0.125.0
+   npm install -g @openai/codex@0.145.0
    ```
 
 4. Run the agent:
@@ -144,7 +144,7 @@ Codex CLI can authenticate either via browser login (`codex --login`) or by usin
 
 1. Install the CLI:
    ```bash
-   npm install -g @openai/codex@0.125.0
+   npm install -g @openai/codex@0.145.0
    ```
 
 2. Export an API key in the environment (recommended):

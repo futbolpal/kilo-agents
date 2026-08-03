@@ -35,9 +35,11 @@ class Config:
         self.process_type = os.getenv('PROCESS_TYPE', 'unknown')
         self.agent_cli = os.getenv('AGENT_CLI', 'kilocode').strip().lower()
         self.kilocode_args = shlex.split(os.getenv('KILOCODE_ARGS', '-a -m orchestrator -j'))
-        self.codex_exec_args = shlex.split(os.getenv('CODEX_EXEC_ARGS', '--full-auto'))
+        self.codex_exec_args = shlex.split(os.getenv(
+            'CODEX_EXEC_ARGS', '--full-auto -c model_reasoning_effort=medium'
+        ))
         self.codex_prompt_mode = os.getenv('CODEX_PROMPT_MODE', 'stdin').strip().lower()
-        self.codex_model = os.getenv('CODEX_MODEL')
+        self.codex_model = os.getenv('CODEX_MODEL', 'gpt-5.6-luna')
         self.prompt_template_path = os.getenv('PROMPT_TEMPLATE_PATH', 'prompt_template.txt')
         self.max_context_chars = int(os.getenv('MAX_CONTEXT_CHARS', '8000'))
         self.workspace_dir = os.getenv('WORKSPACE_DIR', '/workspace')
